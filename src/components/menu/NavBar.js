@@ -7,12 +7,13 @@ export default class Dashboard extends Component {
 
     constructor(props) {
         super(props)
-        this.state={
-            uid:localStorage.getItem("uid"),
-            token:localStorage.getItem("token"),
-            name:localStorage.getItem("name"),
-            mobile:localStorage.getItem("mobile"),
-            user_avatar:`http://localhost:8081/api/authenticate/image-profile/${localStorage.getItem("user_avatar")}`
+        this.state = {
+            uid: localStorage.getItem("uid"),
+            token: localStorage.getItem("token"),
+            name: localStorage.getItem("name"),
+            mobile: localStorage.getItem("mobile"),
+            user_avatar: "https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300-grey.jpg"
+            //user_avatar:`http://localhost:8081/api/authenticate/image-profile/${localStorage.getItem("user_avatar")}`
         }
     }
 
@@ -25,35 +26,65 @@ export default class Dashboard extends Component {
     }
 
     render() {
+       const {name,mobile,user_avatar}=this.state
+
         return (
-            <nav className="navbar navbar-expand-sm navbar-dark fixed-top">
-                <a href="/" className="navbar-brand">
-                    <img src={logo} alt="" height='50' width='50' /> Winds Partner</a>
-                <button type="button" className="navbar-toggler" data-toggle="collapse" data-target="#myMenu">
+
+            <nav className="mb-1 navbar navbar-expand-lg navbar-dark fixed-top">
+
+                <span href="/" className="navbar-brand">
+                    <img src={logo} alt="" height='50' width='70' /> Winds Partner</span>
+
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#myMenu"
+                    aria-controls="myMenu" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                    <div className="dropdown pmd-dropdown pmd-user-info ml-auto" id="myMenu">
-                        <a href="javascript:void(0);" className="btn-user dropdown-toggle media align-items-center"
-                            data-toggle="dropdown"
-                            data-sidebar="true" aria-expanded="false">
-                            <img className="mr-2 rounded-circle border border-warning" src={this.state.user_avatar}
-                                width="50" height="50" alt="avatar" />
-                            <h5 className="text-white">{this.state.name}</h5>
-                        </a>
-                        <ul className="dropdown-menu dropdown-menu-right mt-3" role="menu">
 
-                            <NavLink className="dropdown-item bg-white text-primary" to="/">Edit Profile</NavLink>
-                            <NavLink className="dropdown-item bg-white text-primary" to="/">Notification</NavLink>
-                            <NavLink className="dropdown-item bg-white text-primary" to="/"
-                             onClick={() => this.updateHandel()}
-                            >Update Mobile </NavLink>
-                            <NavLink className="dropdown-item bg-white text-primary" to="/login"
-                               onClick={() => this.logoutHandel()}
-                            >Logout </NavLink>
+                <div className="collapse navbar-collapse" id="myMenu">
+                    <ul className="navbar-nav mr-auto pl-5 custom-nav"  >
+                        
+                        <li className="nav-item"><NavLink exact activeClassName="selected" to="/dashboard" className="nav-link">Home</NavLink></li>
+                        <li className="nav-item"><NavLink activeClassName="selected" to="/dashboard" className="nav-link">NearBy</NavLink></li>
+                        <li className="nav-item"><NavLink activeClassName="selected" to="/dashboard" className="nav-link">Notification</NavLink></li>
+                        <li className="nav-item"><NavLink activeClassName="selected" to="/dashboard" className="nav-link">Product</NavLink></li>
+                        <li className="nav-item"><NavLink activeClassName="selected" to="/dashboard" className="nav-link">Contact</NavLink></li>
+                    </ul>
 
-                        </ul>
-                    </div>
 
+                    <ul className="navbar-nav ml-auto nav-flex-icons">
+
+                        <li className="nav-item text-white">
+                            <h5 className="pr-2 ">{name}</h5>
+                            <h5 className="pr-2 ">{mobile}</h5>
+                        </li>
+
+                        <li className="nav-item avatar">
+                            <a className="nav-link p-0" href="#">
+                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
+                                    className="rounded-circle z-depth-0"
+                                    alt="avatar image" height="45" />
+                            </a>
+                        </li>
+
+                        <li className="nav-item dropdown">
+                            <a className="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+
+                            </a>
+                            <div className="dropdown-menu dropdown-menu-right mt-2" role="menu">
+                                <NavLink className="dropdown-item bg-white text-black" to="/">Edit Profile</NavLink>
+                                <NavLink className="dropdown-item bg-white text-black" to="/">Notification</NavLink>
+                                <NavLink className="dropdown-item bg-white text-black" to="/"
+                                    onClick={() => this.updateHandel()}
+                                >Update Mobile </NavLink>
+                                <NavLink className="dropdown-item bg-white text-black" to="/login"
+                                    onClick={() => this.logoutHandel()}
+                                >Logout </NavLink>
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </nav>
         )
     }

@@ -1,5 +1,5 @@
 .navbar #myMenu .custom-nav .nav-item .selected{
-    color:silver;
+    color:aqua;
 }
 
 .navbar #myMenu .custom-nav #navbarDropdown .dropdown-menu .nav-item .selected{
@@ -9,3 +9,10 @@
 .navbar {
     background:#203bd0;
 }
+
+.navbar #myMenu .custom-nav .nav-item .nav-link {
+    color: #fff;
+  }
+  .navbar #myMenu .custom-nav .nav-item .nav-link:hover{
+    color:chartreuse;
+  }
