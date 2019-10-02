@@ -1,0 +1,94 @@
+body{
+    background: white;
+}
+
+p{
+    font-size: 12px;
+    font-family: 'Be Vietnam', sans-serif;
+}
+
+.icon {
+    padding: 10px;
+    background: dodgerblue;
+    color: white;
+    min-width: 50px;
+    text-align: center;
+}
+
+.banner{
+   
+    background:url(../assets/img/banner.jpg);
+    background-size:cover;
+    background-position: center;
+    padding: 60px 0px;
+}
+
+.logoclass{
+    text-align: center; 
+}
+
+.logoclass img{
+    width: 30%; 
+}
+
+.logoclass p{
+font-weight: 600;
+}
+
+.align-right
+{
+    text-align: right !important;
+    float: right;
+}
+
+#forgot_pass
+{
+    text-align: right !important;
+    float: right;
+    color: #203bd0;
+    text-decoration: underline;
+}
+
+.buttons{
+text-align: center;
+clear: both;
+padding: 20px 0px 0px;
+}
+
+.btn-primary{
+    background-color: #203bd0 !important;
+    border-color: #203bd0 !important; 
+    width: 250px;
+}
+.common-color{
+    color: blue;
+    font-weight: 600;
+}
+
+.midas{
+    margin-top: 10px;
+}
+.wrapper{
+    -webkit-box-shadow: 1px 0px 10px 0px rgba(120,120,120,1);
+-moz-box-shadow: 1px 0px 10px 0px rgba(120,120,120,1);
+box-shadow: 1px 0px 10px 0px rgba(120,120,120,1);
+padding: 12px 50px;
+background: #ffffff;
+}   
+.input-group-append{
+    position: relative;
+    top: -27px;
+    left: 13px;
+    color: #b2b5b7;
+}
+
+.input-group-append span{
+margin: -5px 5px;
+}
+
+.fa-eye-slash, .fa-edit{
+    float: right;
+    position: relative;
+    top: -26px;
+    left: -10px;
+}

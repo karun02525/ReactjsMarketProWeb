@@ -1,0 +1,11 @@
+.navbar #myMenu .custom-nav .nav-item .selected{
+    color:silver;
+}
+
+.navbar #myMenu .custom-nav #navbarDropdown .dropdown-menu .nav-item .selected{
+    color:rgb(53, 12, 235);
+}
+
+.navbar {
+    background:#203bd0;
+}
