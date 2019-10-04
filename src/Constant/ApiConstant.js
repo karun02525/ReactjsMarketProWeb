@@ -1,4 +1,5 @@
-export const Root_Url ="http://192.168.2.118:8081"
+//export const Root_Url ="http://192.168.2.118:8081"
+export const Root_Url ="http://192.168.1.4:8081"
 
 export const URL = {
 LOGIN: `${Root_Url}/api/authenticate/login`,

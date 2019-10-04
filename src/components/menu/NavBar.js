@@ -2,7 +2,7 @@ import '../../css/menu.css'
 import logo from '../../assets/img/logo.png'
 import { NavLink } from 'react-router-dom'
 import React, { Component } from 'react'
-import {URL} from '../../Constant/ApiConstant';
+import { URL } from '../../Constant/ApiConstant';
 
 export default class Dashboard extends Component {
 
@@ -13,7 +13,7 @@ export default class Dashboard extends Component {
             token: localStorage.getItem("token"),
             name: localStorage.getItem("name"),
             mobile: localStorage.getItem("mobile"),
-            user_avatar:URL.PROFILE_AVATAR_BASE_URL+localStorage.getItem("user_avatar")
+            user_avatar: URL.PROFILE_AVATAR_BASE_URL + localStorage.getItem("user_avatar")
         }
     }
 
@@ -21,12 +21,20 @@ export default class Dashboard extends Component {
         localStorage.removeItem("token")
     }
 
+    changePasswordHandel(){
+        alert("change password")
+    }
+
+    venderHandel() {
+        alert("Vender")
+    }
+
     updateHandel() {
         alert("Update")
     }
 
     render() {
-       const {name,mobile,user_avatar}=this.state
+        const { name, mobile, user_avatar } = this.state
 
         return (
 
@@ -42,7 +50,7 @@ export default class Dashboard extends Component {
 
                 <div className="collapse navbar-collapse" id="myMenu">
                     <ul className="navbar-nav mr-auto pl-5 custom-nav"  >
-                        
+
                         <li className="nav-item"><NavLink exact activeClassName="selected" to="/dashboard" className="nav-link">Home</NavLink></li>
                         <li className="nav-item"><NavLink activeClassName="selected" to="/dashboard" className="nav-link">NearBy</NavLink></li>
                         <li className="nav-item"><NavLink activeClassName="selected" to="/dashboard" className="nav-link">Notification</NavLink></li>
@@ -67,19 +75,34 @@ export default class Dashboard extends Component {
                         </li>
 
                         <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                            <span className="nav-link dropdown-toggle" id="myMenu" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-
-                            </a>
+                            </span>
                             <div className="dropdown-menu dropdown-menu-right mt-2" role="menu">
-                                <NavLink className="dropdown-item bg-white text-black" to="/">Edit Profile</NavLink>
-                                <NavLink className="dropdown-item bg-white text-black" to="/">Notification</NavLink>
-                                <NavLink className="dropdown-item bg-white text-black" to="/"
-                                    onClick={() => this.updateHandel()}
-                                >Update Mobile </NavLink>
-                                <NavLink className="dropdown-item bg-white text-black" to="/login"
-                                    onClick={() => this.logoutHandel()}
-                                >Logout </NavLink>
+                                <NavLink className="dropdown-item" to="/43">
+                                    <i className="fas fa-user-edit"></i> {'  '}Edit Profile</NavLink>
+                                <NavLink className="dropdown-item" to="/33">
+                                    <i className="fas fa-bell"></i>{'   '}Notification</NavLink>
+                              
+                                <NavLink className="dropdown-item"
+                                    to="/changepassword"
+                                    onClick={() => this.changePasswordHandel()}>
+                                     <i class="fas fa-unlock-alt"></i>
+                                    {'   '}Change Password </NavLink>
+
+                                <NavLink className="dropdown-item"
+                                    to="/vender"
+                                    onClick={() => this.venderHandel()}>
+                                    <i class="fas fa-shopping-basket"></i>
+                                    {'   '}For Vender </NavLink>
+
+
+                                <div className="dropdown-divider"></div>
+                                <NavLink className="dropdown-item"
+                                    to="/login"
+                                    onClick={() => this.logoutHandel()}>
+                                    <i className="fas fa-power-off"></i>
+                                    {'   '}Logout </NavLink>
 
                             </div>
                         </li>
