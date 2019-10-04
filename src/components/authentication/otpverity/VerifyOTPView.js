@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
+import {URL} from '../../../Constant/ApiConstant';
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import '../../../css/styleAuthentication.css'
@@ -17,9 +18,8 @@ export default class VerifyOTPView extends Component {
     }
 
 
-
     apiCall = () => {
-        axios.post('http://localhost:8081/api/authenticate/verify-otp', this.state)
+        axios.post(URL.VerifyOTP, this.state)
             .then(res => {
                 const jsonData = res.data
                 Swal.fire({
@@ -49,9 +49,9 @@ export default class VerifyOTPView extends Component {
 
     submitHandler = e => {
         e.preventDefault()
-        if (this.state.otp=='') {
+        if (this.state.otp==='') {
             alert("Please enter otp")
-        } else if (this.state.otp.length !=6) {
+        } else if (this.state.otp.length !==6) {
             alert("Please enter valid otp")
         }else {
              this.apiCall()
@@ -81,7 +81,7 @@ export default class VerifyOTPView extends Component {
                         <div className="col-md-5 col-sm-6">
                             <div className="wrapper align-center">
                                 <div className="text-center">
-                                    <img src={require("../../../assets/img/logo.png")} width="30%" height="30%" class="center" />
+                                    <img src={require("../../../assets/img/logo.png")} width="30%" height="30%" className="center" alt="winds" />
                                     <br></br><br></br>
                                     <h5 className="font-weight">CREATE ACCOUNT</h5>
                                     <hr></hr>

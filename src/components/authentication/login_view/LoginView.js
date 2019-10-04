@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom'
+import {URL} from '../../../Constant/ApiConstant';
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import '../../../css/styleAuthentication.css'
@@ -23,7 +24,7 @@ export default class LoginView extends Component {
     }
 
     apiCall = () => {
-        axios.post('http://localhost:8081/api/authenticate/login', this.state)
+        axios.post(URL.LOGIN, this.state)
             .then(res => {
                 const jsonData = res.data
                 Swal.fire({
@@ -54,11 +55,11 @@ export default class LoginView extends Component {
     submitHandler = e => {
         e.preventDefault()
 
-        if (this.state.mobile == '') {
+        if (this.state.mobile === '') {
             alert("Please enter mobile number")
-        } else if (this.state.mobile.length != 10) {
+        } else if (this.state.mobile.length !== 10) {
             alert("Please enter valid mobile number")
-        } else if (this.state.password == '') {
+        } else if (this.state.password === '') {
             alert("Please enter password")
         } else if (this.state.password.length < 8 || this.state.password.length > 16) {
             alert("Password must be equal or grater than 8 characters and less than 16 characters")
@@ -68,7 +69,6 @@ export default class LoginView extends Component {
     }
 
     responseDataParse(jsonData){
-        console.log("Login Data : "+JSON.stringify(jsonData))
         const uid=jsonData.uid
         const token=jsonData.token
         const name=jsonData.first_name +" "+jsonData.last_name
@@ -116,7 +116,9 @@ export default class LoginView extends Component {
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text" id="basic-addon1"><i className="fa fa-mobile-alt"></i></span>
                                             </div>
-                                            <input type="text" className="form-control" id="ur" placeholder="Enter Mobile Number"
+                                            <input type="text" className="form-control" id="ur"
+                                             placeholder="Enter Mobile Number"
+                                             maxLength="10"
                                                 name='mobile' value={mobile} onChange={this.changeHandler}
                                             />
                                         </div>
@@ -128,7 +130,9 @@ export default class LoginView extends Component {
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text" id="basic-addon1"><i className="fa fa-lock"></i></span>
                                             </div>
-                                            <input type="password" className="form-control" id="pws" placeholder="Enter Your Password"
+                                            <input type="password" className="form-control" id="pws" 
+                                            placeholder="Enter Your Password"
+                                            maxLength="16"
                                                 name='password' value={password} onChange={this.changeHandler}
                                             />
                                         </div>

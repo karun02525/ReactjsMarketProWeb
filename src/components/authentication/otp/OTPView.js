@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
+import {URL} from '../../../Constant/ApiConstant';
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import '../../../css/styleAuthentication.css'
-
 
 
 
@@ -17,7 +17,7 @@ export default class OTPView extends Component {
 
 
     apiCall = () => {
-        axios.post('http://localhost:8081/api/authenticate/send-otp', this.state)
+        axios.post(URL.SendOTP, this.state)
             .then(res => {
                 const jsonData = res.data
                 sessionStorage.setItem("mobile", this.state.mobile)

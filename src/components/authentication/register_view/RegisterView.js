@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
+import {URL} from '../../../Constant/ApiConstant';
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import '../../../css/styleAuthentication.css'
@@ -18,17 +19,15 @@ export default class RegisterView extends Component {
             mobile: sessionStorage.getItem("mobile"),
             first_name: '',
             last_name: '',
-            email: '',
             password: '',
             cnf_password: '',
-            city: '',
             gender: 'Male',
             loggedIn
         }
     }
 
     apiCall = () => {
-        axios.post('http://localhost:8081/api/authenticate/create-user', this.state)
+        axios.post(URL.CreateUSER, this.state)
             .then(res => {
                 const jsonData = res.data
                 sessionStorage.removeItem("mobile");
@@ -86,22 +85,18 @@ export default class RegisterView extends Component {
     submitHandler = e => {
         e.preventDefault()
       
-        if (this.state.first_name == '') {
+        if (this.state.first_name === '') {
             alert("Please enter first name")
-        } else if (this.state.last_name == '') {
+        } else if (this.state.last_name === '') {
             alert("Please enter last name")
-        } else if (this.state.email == '') {
-            alert("Please enter email id")
-        } else if (this.state.lname == '') {
+        } else if (this.state.lname === '') {
             alert("Please enter last name")
-        } else if (this.state.password == '') {
+        } else if (this.state.password === '') {
             alert("Please enter password")
         } else if (this.state.password.length < 8 || this.state.password.length > 16) {
             alert("Password must be equal or grater than 8 characters and less than 16 characters")
-        } else if (this.state.password != this.state.cnf_password) {
+        } else if (this.state.password !== this.state.cnf_password) {
             alert("confirm password not match")
-        } else if (this.state.city == '') {
-            alert("Please enter city")
         } else {
             this.apiCall()
         }
@@ -109,7 +104,7 @@ export default class RegisterView extends Component {
 
 
     render() {
-        const { loggedIn, mobile, first_name, last_name, email, password, cnf_password, city } = this.state
+        const { loggedIn, mobile, first_name, last_name, password, cnf_password } = this.state
 
         if (loggedIn) {
             return <Redirect to='/dashboard' />
@@ -182,22 +177,6 @@ export default class RegisterView extends Component {
                                         </div>
                                     </div>
 
-
-                                    <div className="form-group">
-                                        <label for="usr">Email </label>
-                                        <div className="input-group">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text" id="basic-addon1"><i className="fa fa-at"></i></span>
-                                            </div>
-                                            <input type="text" className="form-control" id="ur"
-                                                placeholder="Enter email id"
-                                                maxLength="30"
-                                                name='email' value={email} onChange={this.changeHandler}
-                                            />
-                                        </div>
-                                    </div>
-
-
                                     <div className="form-group">
                                         <label for="pws">Password </label>
                                         <div className="input-group">
@@ -230,20 +209,6 @@ export default class RegisterView extends Component {
                                         <span>
                                             <i className="fa fa-eye-slash" aria-hidden="true"></i>
                                         </span>
-                                    </div>
-
-                                    <div className="form-group">
-                                        <label for="usr">City </label>
-                                        <div className="input-group">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text" id="basic-addon1"><i className="fa fa-map-marked-alt"></i></span>
-                                            </div>
-                                            <input type="text" className="form-control" id="ur"
-                                                placeholder="Enter city"
-                                                maxLength="12"
-                                                name='city' value={city} onChange={this.changeHandler}
-                                            />
-                                        </div>
                                     </div>
 
                                     <div>

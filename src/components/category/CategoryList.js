@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import CategoryView from './CategoryView'
+import {URL} from '../../Constant/ApiConstant';
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
@@ -15,7 +16,7 @@ export default class CategoryList extends Component {
     }
 
     apiCall = () => {
-        axios.get('http://localhost:8081/api/get-category')
+        axios.get(URL.GetCategory)
             .then(res => {
                 const jsonData = res.data
                 console.log("Response: "+ jsonData.data )

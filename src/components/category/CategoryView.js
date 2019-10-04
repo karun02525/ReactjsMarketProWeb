@@ -1,4 +1,6 @@
 import React, { Component,Fragment } from 'react'
+import {URL} from '../../Constant/ApiConstant';
+
 
 
 export default class CategoryView extends Component {
@@ -8,7 +10,7 @@ export default class CategoryView extends Component {
             <Fragment>
                 <div className="col-12 mx-auto col-md-4 col-lg-3 my-3">
                     <div className="card text-center">
-                        <img src={`http://localhost:8081/api/image-category/${category_avatar}`} 
+                        <img src={URL.CATEGORY_AVATAR_BASE_URL+category_avatar} 
                         className="img-card-center"
                         style={mystyle}alt="recipe" />
                         <div className="card-body"><h6>{category_name}</h6> </div>

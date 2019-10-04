@@ -2,6 +2,7 @@ import '../../css/menu.css'
 import logo from '../../assets/img/logo.png'
 import { NavLink } from 'react-router-dom'
 import React, { Component } from 'react'
+import {URL} from '../../Constant/ApiConstant';
 
 export default class Dashboard extends Component {
 
@@ -12,8 +13,7 @@ export default class Dashboard extends Component {
             token: localStorage.getItem("token"),
             name: localStorage.getItem("name"),
             mobile: localStorage.getItem("mobile"),
-            user_avatar: "https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300-grey.jpg"
-            //user_avatar:`http://localhost:8081/api/authenticate/image-profile/${localStorage.getItem("user_avatar")}`
+            user_avatar:URL.PROFILE_AVATAR_BASE_URL+localStorage.getItem("user_avatar")
         }
     }
 
@@ -60,7 +60,7 @@ export default class Dashboard extends Component {
 
                         <li className="nav-item avatar">
                             <a className="nav-link p-0" href="#">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
+                                <img src={user_avatar}
                                     className="rounded-circle z-depth-0"
                                     alt="avatar image" height="45" />
                             </a>
