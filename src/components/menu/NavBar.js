@@ -3,6 +3,9 @@ import logo from '../../assets/img/logo.png'
 import { NavLink } from 'react-router-dom'
 import React, { Component } from 'react'
 import { URL } from '../../Constant/ApiConstant';
+import PopupSubmit from '../vender/PopupSubmit'
+import PopupView from '../vender/PopupView'
+
 
 export default class Dashboard extends Component {
 
@@ -13,7 +16,8 @@ export default class Dashboard extends Component {
             token: localStorage.getItem("token"),
             name: localStorage.getItem("name"),
             mobile: localStorage.getItem("mobile"),
-            user_avatar: URL.PROFILE_AVATAR_BASE_URL + localStorage.getItem("user_avatar")
+            user_avatar: URL.PROFILE_AVATAR_BASE_URL + localStorage.getItem("user_avatar"),
+            showPopup: false
         }
     }
 
@@ -26,7 +30,9 @@ export default class Dashboard extends Component {
     }
 
     venderHandel() {
-        alert("Vender")
+        this.setState({
+            showPopup:true
+          });
     }
 
     updateHandel() {
@@ -34,11 +40,15 @@ export default class Dashboard extends Component {
     }
 
     render() {
-        const { name, mobile, user_avatar } = this.state
+        const { name, mobile, user_avatar,showPopup } = this.state
+        if(showPopup){
+            return( <PopupView/>)
+        }
+
 
         return (
 
-            <nav className="mb-1 navbar navbar-expand-lg navbar-dark fixed-top">
+            <nav className="mb-1 navbar navbar-expand-lg navbar-dark fixed-top mb-5">
 
                 <span href="/" className="navbar-brand">
                     <img src={logo} alt="" height='50' width='70' /> Winds Partner</span>
@@ -67,11 +77,11 @@ export default class Dashboard extends Component {
                         </li>
 
                         <li className="nav-item avatar">
-                            <a className="nav-link p-0" href="#">
+                            <span className="nav-link p-0" href="#">
                                 <img src={user_avatar}
-                                    className="rounded-circle z-depth-0"
+                                    className="rounded-circle img-responsive"
                                     alt="avatar image" height="45" />
-                            </a>
+                            </span>
                         </li>
 
                         <li className="nav-item dropdown">
@@ -84,17 +94,17 @@ export default class Dashboard extends Component {
                                 <NavLink className="dropdown-item" to="/33">
                                     <i className="fas fa-bell"></i>{'   '}Notification</NavLink>
                               
-                                <NavLink className="dropdown-item"
-                                    to="/changepassword"
+                                <button className="dropdown-item"
+                    
                                     onClick={() => this.changePasswordHandel()}>
                                      <i class="fas fa-unlock-alt"></i>
-                                    {'   '}Change Password </NavLink>
+                                    {'   '}Change Password </button>
 
-                                <NavLink className="dropdown-item"
-                                    to="/vender"
+                                <button className="dropdown-item"
+                            
                                     onClick={() => this.venderHandel()}>
                                     <i class="fas fa-shopping-basket"></i>
-                                    {'   '}For Vender </NavLink>
+                                    {'   '}For Vender </button>
 
 
                                 <div className="dropdown-divider"></div>

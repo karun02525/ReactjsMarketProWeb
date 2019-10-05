@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import NavBar from '../menu/NavBar'
 import Category from '../category'
 
 export default class Dashboard extends Component {
@@ -24,13 +23,7 @@ export default class Dashboard extends Component {
         if (this.state.loggedIn===false) {
             return <Redirect to='/login' />
         }
-        return (
-            <div>
-                <NavBar />
-                <Category/>
-            </div>
-
-        )
+        return (<Redirect to='/category'/>)
     }
 }
 
