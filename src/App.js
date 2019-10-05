@@ -5,6 +5,7 @@ import RegisterView from './components/authentication/register_view'
 import LoginView from './components/authentication/login_view'
 import Dashboard from './components/dashboard'
 import Category from './components/category/'
+import ShopRegister  from './components/shop_register/ShopRegister'
 
 import Footer from './components/menu/Footer'
 import Error404 from './components/menu/Error404'
@@ -22,6 +23,7 @@ const App = () => (
         <Route path="/register" component={RegisterView} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/category" component={Category} />
+        <Route path="/shopregister" component={ShopRegister} />
         <Route path="/404" component={Error404} />
       </Switch>
       <Footer />

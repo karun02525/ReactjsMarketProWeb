@@ -1,10 +1,13 @@
 import '../../css/menu.css'
 import logo from '../../assets/img/logo.png'
-import { NavLink } from 'react-router-dom'
+import { NavLink ,Redirect} from 'react-router-dom'
 import React, { Component } from 'react'
 import { URL } from '../../Constant/ApiConstant';
 import PopupSubmit from '../vender/PopupSubmit'
-import PopupView from '../vender/PopupView'
+import ShopRegister from '../shop_register/ShopRegister'
+import axios from 'axios'
+import Swal from 'sweetalert2'
+
 
 
 export default class Dashboard extends Component {
@@ -17,7 +20,10 @@ export default class Dashboard extends Component {
             name: localStorage.getItem("name"),
             mobile: localStorage.getItem("mobile"),
             user_avatar: URL.PROFILE_AVATAR_BASE_URL + localStorage.getItem("user_avatar"),
-            showPopup: false
+            vender_id:'',
+            category_id:'',
+            category_name:'',
+            is_verify:-1,
         }
     }
 
@@ -26,26 +32,83 @@ export default class Dashboard extends Component {
     }
 
     changePasswordHandel(){
-        alert("change password")
+        Swal.fire({
+            title: "Your veri",
+            type: 'info',
+            showCloseButton: true,
+            showCancelButton: false,
+            focusConfirm: false,
+            confirmButtonText: '<i class="fa fa-thumbs-up"></i> Done!',
+          })
     }
 
     venderHandel() {
-        this.setState({
-            showPopup:true
-          });
+        this.apiCall()
     }
 
     updateHandel() {
-        alert("Update")
+       
+    
     }
 
+
+    apiCall = () => {
+        axios.get(URL.CheckVender+this.state.uid)
+            .then(res => {
+                const jsonData = res.data
+                const isCheck=jsonData.data.is_verify
+                const shopId=jsonData.data.vender_id
+                this.setState({
+                    vender_id:shopId,
+                    category_id:jsonData.data.category_id,
+                    category_name:jsonData.data.category_name,
+                    is_verify:isCheck
+                })
+
+                if(isCheck==1){
+                    Swal.fire({
+                        title:'<p style="color:green;font-size:25px">'+jsonData.message+"</p>",
+                        html:"<b>Your Shop ID:</b> </br> <b>#"+shopId+"</b>",
+                        type: 'info',
+                        showCloseButton: true,
+                        showCancelButton: false,
+                        focusConfirm: false,
+                        confirmButtonText: '<i class="fa fa-thumbs-up"></i> Done!',
+                      })
+                }
+                if(isCheck==3){
+                    Swal.fire({
+                        title:'<p style="color:red;font-size:25px">'+jsonData.message+"</p>",
+                        html:"<b>Your Shop ID:</b> </br> <b>#"+shopId+"</b>",
+                        type: 'error',
+                        showCloseButton: true,
+                        showCancelButton: false,
+                        focusConfirm: false,
+                        confirmButtonText: '<i class="fa fa-thumbs-up"></i> Done!',
+                      })
+                }
+
+            }).catch(error => {
+                if (error.response) {
+                    Swal.fire(error.response.data.message)
+                }
+                console.log(error)
+            })
+    }
+
+
+
+
+
     render() {
-        const { name, mobile, user_avatar,showPopup } = this.state
-        if(showPopup){
-            return( <PopupView/>)
+        const { name, mobile, user_avatar,is_verify,uid } = this.state
+        if(is_verify==0){
+            return( <PopupSubmit name={name} mobile={mobile} uid={uid}/>)
         }
-
-
+        if(is_verify==2){
+            return <Redirect to='/shopregister' />
+        }
+        
         return (
 
             <nav className="mb-1 navbar navbar-expand-lg navbar-dark fixed-top mb-5">

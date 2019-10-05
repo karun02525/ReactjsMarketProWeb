@@ -8,51 +8,72 @@ import Swal from 'sweetalert2'
 
 
 
-
 export default class PopupSubmit extends React.Component {
-
-    state = {
-        show: true,
-        mobile: "897899897",
-        name: "Kaju Kumar",
-        data: [
-            {
-                "category_id": "1570193474122",
-                "category_name": "Vegetables",
-                "category_avatar": "category_75173661-4f95-4243-b933-71053858d322.png",
-                "category_postion": 1,
-                "create_at": "2019-10-04 18:21:14"
-            },
-            {
-                "category_id": "1570193520768",
-                "category_name": "Fruites",
-                "category_avatar": "category_672a659e-0cd2-4b98-897d-81b7f7e773b7.png",
-                "category_postion": 2,
-                "create_at": "2019-10-04 18:22:00"
-            },
-            {
-                "category_id": "1570195926791",
-                "category_name": "Electronics",
-                "category_avatar": "category_db77c2a0-9308-424c-9df5-6c88dd4c940e.png",
-                "category_postion": 3,
-                "create_at": "2019-10-04 19:02:06"
-            }
-        ]
-    };
+    constructor(props){
+        super(props)
+        this.apiCall()
+        this.state = {
+            show: true,
+            mobile:this.props.mobile,
+            name: this.props.name,
+            uid:this.props.uid,
+            data: []
+        };
+    }
 
 
+    
+    
 
+    apiCall = () => {
+        axios.get(URL.GetCategory)
+            .then(res => {
+                const jsonData = res.data
+                console.log("Response: "+ jsonData.data )
+                this.setState({
+                    data:jsonData.data
+                })
+                
+            }).catch(error => {
+                if (error.response) {
+                    Swal.fire(error.response.data.message)
+                }
+                console.log(error)
+            })
+    }
 
     handlerSubmit = e => {
         e.preventDefault();
         const payload = {
-            uid:"98889",
-            mobile: "9878978979",
-            fullname: "Karun Kumar",
+            uid:this.state.uid,
+            mobile:this.state.mobile,
+            fullname:this.state.name,
             category_id: this.category_id.value
         }
 
-        console.log("All Data : " + JSON.stringify(payload))
+        axios.post(URL.VenderRegister,payload)
+        .then(res => {
+            const jsonData = res.data
+            Swal.fire({
+                type: 'success',
+                title: jsonData.message,
+                showConfirmButton: false,
+                timer: 3000
+            })
+            setTimeout(() => {
+                this.setState({
+                    show: false
+                })
+            }, 3000);
+
+
+
+        }).catch(error => {
+            if (error.response) {
+                Swal.fire(error.response.data.message)
+            }
+            console.log(error)
+        })
     }
 
 
@@ -66,13 +87,12 @@ export default class PopupSubmit extends React.Component {
     render() {
         const { mobile, name, data,show } = this.state
            
-    
         return (
             <div>
                 <NavBar/>
                 <Modal isOpen={show} onHide={this.handleClose}>
                     <form onSubmit={this.handlerSubmit}>
-                        <ModalHeader className="text-success">Vender Verification</ModalHeader>
+                        <ModalHeader className="text-primary">For Vender Register Shop</ModalHeader>
                         <ModalBody>Name:<b> {' '} {name}</b> <br /> Mobile No: {' '} <b>{mobile}</b> </ModalBody>
                         <ModalBody>
                             <div className="row">
