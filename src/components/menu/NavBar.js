@@ -4,7 +4,6 @@ import { NavLink ,Redirect} from 'react-router-dom'
 import React, { Component } from 'react'
 import { URL } from '../../Constant/ApiConstant';
 import PopupSubmit from '../vender/PopupSubmit'
-import ShopRegister from '../shop_register/ShopRegister'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 

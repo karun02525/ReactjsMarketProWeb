@@ -1,12 +1,11 @@
 import React from 'react';
 import OTP from './components/authentication/otp'
 import VerifyOTP from './components/authentication/otpverity'
-import RegisterView from './components/authentication/register_view'
+import RegisterView from './components/shop_register'
 import LoginView from './components/authentication/login_view'
 import Dashboard from './components/dashboard'
 import Category from './components/category/'
-import ShopRegister  from './components/shop_register/ShopRegister'
-
+import ShopRegister  from './components/shop_register/'
 import Footer from './components/menu/Footer'
 import Error404 from './components/menu/Error404'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'

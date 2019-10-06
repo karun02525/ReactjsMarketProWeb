@@ -1,30 +1,83 @@
 import React, { Component } from 'react'
 import NavBar from '../menu/NavBar'
+import { SketchPicker } from 'react-color'
+
+
 
 export default class ShopRegister extends Component {
+
+    state = {
+        displayColorPicker: false,
+        background: '#fff'
+    }
+
+
+
+    handleColorPickarOpen = () => {
+        this.setState({ displayColorPicker: !this.state.displayColorPicker })
+      };
+    
+      handleColorPickar = color => {
+        this.setState({ background: color.hex  });
+    };
+
+    handleColorPickarClose = () => {
+        this.setState({ displayColorPicker: false })
+      };
+
     render() {
+        const {background}=this.state
+        console.log("Color Code: "+background)
+
+
         return (
             <div>
                 <NavBar />
                 <div class="container">
-                    <h1 class="well">Registration Form</h1>
-                    <div class="col-lg-12 well">
+                    <h4 className="ml-3">Registration Form</h4>
+                    <div class="col-lg-12 well mt-3">
                         <div class="row">
                             <form>
                                 <div class="col-sm-12">
+                                    <label>Your Shop Register ID : </label>
+                                    <label className="ml-2 font-weight-bold">#8786786787888</label><br></br>
+                                    <label>Your Name : </label>
+                                    <label className="ml-2 font-weight-bold">Karun Kumar</label><br></br>
+                                    <label>Category  : </label>
+                                    <label className="ml-2 font-weight-bold">Hostal</label><br></br>
+                                </div>
+                                <div class="col-sm-12 mt-5">
                                     <div class="row">
                                         <div class="col-sm-6 form-group">
-                                            <label>First Name</label>
-                                            <input type="text" placeholder="Enter First Name Here.." class="form-control" />
-                                        </div>
-                                        <div class="col-sm-6 form-group">
-                                            <label>Last Name</label>
-                                            <input type="text" placeholder="Enter Last Name Here.." class="form-control" />
+                                            <label>Shop Name</label>
+                                            <input type="text" placeholder="Enter Shop Name Here.." class="form-control" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Address</label>
-                                        <textarea placeholder="Enter Address Here.." rows="3" class="form-control"></textarea>
+                                        <label>Email Address</label>
+                                        <input type="text" placeholder="Enter Email Address Here.." class="form-control" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Shop Mobile Number</label>
+                                        <input type="text" placeholder="Enter Shop Mobile Number Here.."
+                                            class="form-control"
+                                            maxLength="10"
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Shop Color</label>
+                                      
+                                        <SketchPicker
+                                            color={this.state.background}
+                                            onChangeComplete={this.handleColorPickar}
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Shop Address</label>
+                                        <textarea placeholder="Enter Shop Address Here.." rows="3" class="form-control"></textarea>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-4 form-group">
@@ -42,22 +95,22 @@ export default class ShopRegister extends Component {
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-6 form-group">
-                                            <label>Title</label>
-                                            <input type="text" placeholder="Enter Designation Here.." class="form-control" />
+                                            <label>Owner First Name</label>
+                                            <input type="text" placeholder="Enter Owner First Name Here.." class="form-control" />
                                         </div>
                                         <div class="col-sm-6 form-group">
-                                            <label>Company</label>
-                                            <input type="text" placeholder="Enter Company Name Here.." class="form-control" />
+                                            <label>Owner Last Name</label>
+                                            <input type="text" placeholder="Enter Owner Last Name Here.." class="form-control" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Phone Number</label>
-                                        <input type="text" placeholder="Enter Phone Number Here.." class="form-control" />
+                                        <label>Owner Mobile Number</label>
+                                        <input type="text" placeholder="Enter Owner Mobile Number Here.."
+                                            class="form-control"
+                                            maxLength="10"
+                                        />
                                     </div>
-                                    <div class="form-group">
-                                        <label>Email Address</label>
-                                        <input type="text" placeholder="Enter Email Address Here.." class="form-control" />
-                                    </div>
+
                                     <div class="form-group">
                                         <label>Website</label>
                                         <input type="text" placeholder="Enter Website Name Here.." class="form-control" />
