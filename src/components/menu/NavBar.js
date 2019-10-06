@@ -142,7 +142,7 @@ export default class Dashboard extends Component {
                             <span className="nav-link p-0" href="#">
                                 <img src={user_avatar}
                                     className="rounded-circle img-responsive"
-                                    alt="avatar image" height="45" />
+                                     height="45" />
                             </span>
                         </li>
 
