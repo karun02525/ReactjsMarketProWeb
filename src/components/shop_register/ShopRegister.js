@@ -158,7 +158,7 @@ export default class ShopRegister extends Component {
                                     onChange={this.handleChange.bind(this)}
                                     acceptedFiles={['image/jpeg', 'image/png', 'image/bmp']}
                                     showPreviews={false}
-                                    maxFileSize={500000}
+                                    maxFileSize={1222*1000*5}
                                     filesLimit={1}
                                 />
                             </div>

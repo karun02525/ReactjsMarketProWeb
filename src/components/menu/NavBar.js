@@ -6,6 +6,8 @@ import { URL } from '../../Constant/ApiConstant';
 import PopupSubmit from '../vender/PopupSubmit'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import EditProfilePopupView from '../menu/EditProfilePopupView'
+
 
 
 
@@ -23,6 +25,7 @@ export default class Dashboard extends Component {
             category_id:'',
             category_name:'',
             is_verify:-1,
+            isEdit:false
         }
     }
 
@@ -46,8 +49,7 @@ export default class Dashboard extends Component {
     }
 
     updateHandel() {
-       
-    
+      
     }
 
 
@@ -96,16 +98,25 @@ export default class Dashboard extends Component {
     }
 
 
+    editClick = () =>{
+        this.setState({
+            isEdit:true
+           })
+    }
 
 
 
     render() {
-        const { name, mobile, user_avatar,is_verify,uid } = this.state
+        const { name, mobile, user_avatar,is_verify,uid,isEdit } = this.state
         if(is_verify==0){
             return( <PopupSubmit name={name} mobile={mobile} uid={uid}/>)
         }
         if(is_verify==2){
             return <Redirect to='/shopregister' />
+        }
+        
+        if(isEdit){
+            return <EditProfilePopupView/>
         }
         
         return (
@@ -151,8 +162,11 @@ export default class Dashboard extends Component {
                                 aria-haspopup="true" aria-expanded="false">
                             </span>
                             <div className="dropdown-menu dropdown-menu-right mt-2" role="menu">
-                                <NavLink className="dropdown-item" to="/43">
-                                    <i className="fas fa-user-edit"></i> {'  '}Edit Profile</NavLink>
+                                
+                                <button className="dropdown-item" onClick={this.editClick}>
+                                    <i className="fas fa-user-edit"></i> {'  '}Edit Profile</button>
+                             
+                             
                                 <NavLink className="dropdown-item" to="/33">
                                     <i className="fas fa-bell"></i>{'   '}Notification</NavLink>
                               

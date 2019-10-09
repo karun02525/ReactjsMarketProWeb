@@ -9,6 +9,7 @@
     "jquery": "^3.4.1",
     "material-ui-dropzone": "^2.4.1",
     "mdbootstrap": "^4.8.10",
+    "rc-datepicker": "^5.0.14",
     "react": "^16.9.0",
     "react-bootstrap-modal": "^4.2.0",
     "react-color": "^2.17.3",
