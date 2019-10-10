@@ -8,24 +8,25 @@ import NavBar from './NavBar'
 
 export default class EditProfilePopupView extends React.Component {
 
-    state = {
-        show: true,
-        mobile: "897899897",
-        first_name: "Kaju",
-        last_name: "Kumar",
-        email: "karun@gmail.com",
-        gender: 'Male',
-        selectedDate: new Date().toISOString(),
-        image:"https://i.pinimg.com/originals/43/96/61/439661dcc0d410d476d6d421b1812540.jpg"
+    constructor(props) {
+        super(props)
+        this.state = {
+            show: true,
+            uid: props.uid,
+            mobile: props.mobile,
+            first_name: props.fname,
+            last_name: props.lname,
+            email: props.email,
+            gender: props.gender,
+            selectedDate: props.dob,
+            user_avatar: props.user_avatar,
+        }
     }
-
 
     handleClose = () => {
         this.setState({
             show: false,
-            mobile: "897899897",
-            name: "Kaju Kumar",
-            email: "karun@gmail.com",
+
         })
     }
 
@@ -33,15 +34,40 @@ export default class EditProfilePopupView extends React.Component {
         this.refs.fileUploader.click();
     }
 
-    onChangeFile = (event) =>{
+    onChangeFile = (event) => {
         event.stopPropagation();
         event.preventDefault();
         //const file = event.target.files[0];
-        const file =  URL.createObjectURL(event.target.files[0])
+        const file = URL.createObjectURL(event.target.files[0])
         console.log(file);
-        this.setState({image:file});
+        this.setState({ user_avatar: file });
     }
 
+
+     apiUpdateProfileCall(){
+        const data = new FormData();
+        data.append('category_name', this.name.value);
+        data.append('category_desc', this.desc.value);
+        data.append('avatar_large', this.avatar_large.files[0]);
+
+        axios.post('http://localhost:8087/admin/api/create-category',data)
+        .then(res=>{
+            const jsonData=res.data
+            Swal.fire({
+             type: 'success',
+             title: jsonData.message,
+             showConfirmButton: false,
+             timer: 1000
+           }) 
+
+        }).catch(error=>{
+            if (error.response) {
+                Swal.fire(error.response.data.message)
+            }
+            console.log(error)
+        })
+
+     }
 
 
     onChangeDate = (date, formattedValue) => {
@@ -56,27 +82,27 @@ export default class EditProfilePopupView extends React.Component {
 
     render() {
 
-        const { mobile, first_name, last_name, email, data, show, gender, } = this.state
+        const { mobile, first_name, last_name, email, show, gender, } = this.state
         return (
             <div>
-                <NavBar/>
+                <NavBar />
                 <Modal isOpen={show} onHide={this.handleClose}>
 
                     <ModalHeader className="text-success">Edit Profile</ModalHeader>
                     <ModalBody>
 
                         <div className="d-flex justify-content-center" >
-                            <img src={this.state.image}
+                            <img src={this.state.user_avatar}
                                 className="rounded-circle img-responsive"
-                                height="145"  width="145" />
+                                height="145" width="145" />
 
 
                             <div onClick={this.pictureOnClick} className="text-center pt-5 mt-5">
                                 <i className="fa fa-camera" aria-hidden="true" />
-                                <input  type="file" id="file" 
-                                        ref="fileUploader" 
-                                        style={{display: "none"}}
-                                        onChange={this.onChangeFile}
+                                <input type="file" id="file"
+                                    ref="fileUploader"
+                                    style={{ display: "none" }}
+                                    onChange={this.onChangeFile}
                                 />
                             </div>
                         </div>
