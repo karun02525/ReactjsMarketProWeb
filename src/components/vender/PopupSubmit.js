@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { URL } from '../../Constant/ApiConstant';
+import { URL_API } from '../../Constant/ApiConstant';
 import NavBar from '../menu/NavBar'
 
 import axios from 'axios'
@@ -15,7 +15,8 @@ export default class PopupSubmit extends React.Component {
         this.state = {
             show: true,
             mobile:this.props.mobile,
-            name: this.props.name,
+            fname: this.props.fname,
+            lname: this.props.lname,
             uid:this.props.uid,
             data: []
         };
@@ -26,7 +27,7 @@ export default class PopupSubmit extends React.Component {
     
 
     apiCall = () => {
-        axios.get(URL.GetCategory)
+        axios.get(URL_API.GetCategory)
             .then(res => {
                 const jsonData = res.data
                 console.log("Response: "+ jsonData.data )
@@ -85,7 +86,7 @@ export default class PopupSubmit extends React.Component {
 
 
     render() {
-        const { mobile, name, data,show } = this.state
+        const { mobile, fname,lname, data,show } = this.state
            
         return (
             <div>
@@ -93,7 +94,7 @@ export default class PopupSubmit extends React.Component {
                 <Modal isOpen={show} onHide={this.handleClose}>
                     <form onSubmit={this.handlerSubmit}>
                         <ModalHeader className="text-primary">For Vender Register Shop</ModalHeader>
-                        <ModalBody>Name:<b> {' '} {name}</b> <br /> Mobile No: {' '} <b>{mobile}</b> </ModalBody>
+                        <ModalBody>Name:<b> {' '} {fname +" "+ lname}</b> <br /> Mobile No: {' '} <b>{mobile}</b> </ModalBody>
                         <ModalBody>
                             <div className="row">
                                 <div className="col-lg-6">

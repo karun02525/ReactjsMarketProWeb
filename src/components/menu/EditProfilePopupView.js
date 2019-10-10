@@ -1,8 +1,12 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { DatePickerInput } from 'rc-datepicker';
+import {URL_API} from '../../Constant/ApiConstant';
+import axios from 'axios'
+import Swal from 'sweetalert2'
 import 'rc-datepicker/lib/style.css';
 import NavBar from './NavBar'
+import {Redirect } from 'react-router-dom'
 
 
 
@@ -20,15 +24,17 @@ export default class EditProfilePopupView extends React.Component {
             gender: props.gender,
             selectedDate: props.dob,
             user_avatar: props.user_avatar,
+            files:null,
+            isSuccess:false,
         }
     }
 
     handleClose = () => {
         this.setState({
             show: false,
-
         })
     }
+
 
     pictureOnClick = (e) => {
         this.refs.fileUploader.click();
@@ -37,20 +43,36 @@ export default class EditProfilePopupView extends React.Component {
     onChangeFile = (event) => {
         event.stopPropagation();
         event.preventDefault();
-        //const file = event.target.files[0];
-        const file = URL.createObjectURL(event.target.files[0])
-        console.log(file);
-        this.setState({ user_avatar: file });
+        const filePath=event.target.files[0]
+        const fileData = URL.createObjectURL(filePath);
+        this.setState({files:filePath,user_avatar:fileData});
+
     }
 
+    changeHandler = (e) => {
+        this.setState({ [e.target.name]: e.target.value })
+    }
+
+    submitHandler = e => {
+        e.preventDefault()
+        
+        this.apiUpdateProfileCall() 
+    }
 
      apiUpdateProfileCall(){
-        const data = new FormData();
-        data.append('category_name', this.name.value);
-        data.append('category_desc', this.desc.value);
-        data.append('avatar_large', this.avatar_large.files[0]);
+        const dataParse = new FormData();
+        dataParse.append('uid', this.state.uid);
+        dataParse.append('first_name', this.state.first_name);
+        dataParse.append('email', this.state.email);
+        dataParse.append('gender', this.state.gender);
+        dataParse.append('dob', this.state.selectedDate);
+        dataParse.append('user_avatar', this.state.files);
 
-        axios.post('http://localhost:8087/admin/api/create-category',data)
+        console.log(this.state);
+        
+
+
+        axios.post(URL_API.EditPrifile,dataParse)
         .then(res=>{
             const jsonData=res.data
             Swal.fire({
@@ -59,10 +81,13 @@ export default class EditProfilePopupView extends React.Component {
              showConfirmButton: false,
              timer: 1000
            }) 
+           setTimeout(() => {
+              this.setState({show: false,isSuccess:true})
+        }, 1000);
 
         }).catch(error=>{
             if (error.response) {
-                Swal.fire(error.response.data.message)
+                Swal.fire(error.response.message)
             }
             console.log(error)
         })
@@ -73,24 +98,24 @@ export default class EditProfilePopupView extends React.Component {
     onChangeDate = (date, formattedValue) => {
         var ios = new Date(formattedValue);
         const dob = ios.toLocaleDateString('en-GB');
-
-        console.log(dob);
-        this.setState({
-            selectedDate: dob
-        });
+        this.setState({selectedDate: dob });
     }
+  
+
+   
 
     render() {
-
-        const { mobile, first_name, last_name, email, show, gender, } = this.state
+        const {isSuccess, mobile, first_name, last_name, email, show, gender, } = this.state
+        if(isSuccess){
+            return <Redirect to='/dashboard' />
+        }
         return (
-            <div>
+               <>
                 <NavBar />
                 <Modal isOpen={show} onHide={this.handleClose}>
-
+                <form className='form' onSubmit={this.submitHandler}>
                     <ModalHeader className="text-success">Edit Profile</ModalHeader>
                     <ModalBody>
-
                         <div className="d-flex justify-content-center" >
                             <img src={this.state.user_avatar}
                                 className="rounded-circle img-responsive"
@@ -113,7 +138,7 @@ export default class EditProfilePopupView extends React.Component {
                             <label style={{ 'margin-left': '148px' }}> Gender : <strong>{gender}</strong></label>
                         </div>
 
-                        <form className='form' onSubmit={this.submitHandler}>
+                     
                             <div className="form-group">
                                 <label for="usr">First Name </label>
                                 <div className="input-group">
@@ -174,17 +199,14 @@ export default class EditProfilePopupView extends React.Component {
                                         locale='en-GB' />
                                 </div>
                             </div>
-                        </form>
-
-
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="info" onClick={this.handleClose}>Update Profile</Button>
+                        <button className="btn btn-info" type="submit">Update Profile</button>
                         <Button color="danger" onClick={this.handleClose}>Close</Button>
                     </ModalFooter>
+                    </form>
                 </Modal>
-            </div>
-
+           </>
         );
     }
 }

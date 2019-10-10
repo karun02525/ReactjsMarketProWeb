@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import {URL} from '../../../Constant/ApiConstant';
+import {URL_API} from '../../../Constant/ApiConstant';
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import '../../../css/styleAuthentication.css'
@@ -19,7 +19,7 @@ export default class VerifyOTPView extends Component {
 
 
     apiCall = () => {
-        axios.post(URL.VerifyOTP, this.state)
+        axios.post(URL_API.VerifyOTP, this.state)
             .then(res => {
                 const jsonData = res.data
                 Swal.fire({

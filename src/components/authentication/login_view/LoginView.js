@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom'
-import {URL} from '../../../Constant/ApiConstant';
+import {URL_API} from '../../../Constant/ApiConstant';
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import '../../../css/styleAuthentication.css'
@@ -24,7 +24,7 @@ export default class LoginView extends Component {
     }
 
     apiCall = () => {
-        axios.post(URL.LOGIN, this.state)
+        axios.post(URL_API.LOGIN, this.state)
             .then(res => {
                 const jsonData = res.data
                 Swal.fire({
@@ -71,15 +71,13 @@ export default class LoginView extends Component {
     responseDataParse(jsonData){
         const uid=jsonData.uid
         const token=jsonData.token
-        const name=jsonData.first_name +" "+jsonData.last_name
         const mobile=jsonData.mobile
-        const user_avatar=jsonData.user_avatar
 
         localStorage.setItem("uid", uid)
         localStorage.setItem("token", token)
-        localStorage.setItem("name", name)
+        localStorage.setItem("fname", jsonData.first_name)
+        localStorage.setItem("lname", jsonData.last_name)
         localStorage.setItem("mobile", mobile)
-        localStorage.setItem("user_avatar", user_avatar)
 
          this.setState({
             loggedIn: true

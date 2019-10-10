@@ -2,7 +2,7 @@ import '../../css/menu.css'
 import logo from '../../assets/img/logo.png'
 import { NavLink ,Redirect} from 'react-router-dom'
 import React, { Component } from 'react'
-import { URL } from '../../Constant/ApiConstant';
+import { URL_API } from '../../Constant/ApiConstant';
 import PopupSubmit from '../vender/PopupSubmit'
 import axios from 'axios'
 import Swal from 'sweetalert2'
@@ -18,9 +18,13 @@ export default class Dashboard extends Component {
         this.state = {
             uid: localStorage.getItem("uid"),
             token: localStorage.getItem("token"),
-            name: localStorage.getItem("name"),
+            fname: localStorage.getItem("fname"),
+            lname: localStorage.getItem("lname"),
             mobile: localStorage.getItem("mobile"),
-            user_avatar: URL.PROFILE_AVATAR_BASE_URL + localStorage.getItem("user_avatar"),
+            email:'',
+            gender:'',
+            dob:'',
+            user_avatar:'',
             vender_id:'',
             category_id:'',
             category_name:'',
@@ -28,6 +32,10 @@ export default class Dashboard extends Component {
             isEdit:false
         }
     }
+
+
+   // user_avatar: URL.PROFILE_AVATAR_BASE_URL + localStorage.getItem("user_avatar"),
+
 
     logoutHandel() {
         localStorage.removeItem("token")
@@ -45,15 +53,55 @@ export default class Dashboard extends Component {
     }
 
     venderHandel() {
-        this.apiCall()
+        this.apiVenderVirifyCall()
     }
 
     updateHandel() {
       
     }
 
+    componentDidMount(){
+        this.apiDashBoardCall()
+    }
 
-    apiCall = () => {
+    apiDashBoardCall = () => {
+        axios.get(URL_API.Dashboard+this.state.uid)
+            .then(res => {
+                const jsonData = res.data
+                console.log("Dashboard: "+ jsonData.data)
+                const img=jsonData.data.user_avatar;
+                const dobData=jsonData.data.dob;
+               
+                var dob=new Date().toISOString();
+                var avatar='https://i.pinimg.com/originals/43/96/61/439661dcc0d410d476d6d421b1812540.jpg'
+                if(img !==""){
+                    avatar=URL_API.PROFILE_AVATAR_BASE_URL+img
+                }
+                if(dobData !==""){
+                    dob=dobData
+                }
+
+                this.setState({
+                    uid:jsonData.data.uid,
+                    fname:jsonData.data.first_name,
+                    lname: jsonData.data.last_name,
+                    mobile:jsonData.data.mobile,
+                    email:jsonData.data.email,
+                    gender:jsonData.data.gender,
+                    dob:dob,
+                    user_avatar:avatar,
+                })
+                
+            }).catch(error => {
+                if (error.response) {
+                    Swal.fire(error.response.data.message)
+                }
+                console.log(error)
+            })
+    }
+
+
+    apiVenderVirifyCall = () => {
         axios.get(URL.CheckVender+this.state.uid)
             .then(res => {
                 const jsonData = res.data
@@ -97,7 +145,6 @@ export default class Dashboard extends Component {
             })
     }
 
-
     editClick = () =>{
         this.setState({
             isEdit:true
@@ -107,16 +154,19 @@ export default class Dashboard extends Component {
 
 
     render() {
-        const { name, mobile, user_avatar,is_verify,uid,isEdit } = this.state
+        const { fname,lname, mobile,email, user_avatar,gender,dob,is_verify,uid,isEdit } = this.state
         if(is_verify==0){
-            return( <PopupSubmit name={name} mobile={mobile} uid={uid}/>)
+            return( <PopupSubmit fname={fname} lname={lname} mobile={mobile} uid={uid}/>)
         }
         if(is_verify==2){
             return <Redirect to='/shopregister' />
         }
         
         if(isEdit){
-            return <EditProfilePopupView/>
+            return <EditProfilePopupView  
+             uid={uid} fname={fname} lname={lname} mobile={mobile} email={email}
+             user_avatar={user_avatar} gender={gender} dob={dob} 
+            />
         }
         
         return (
@@ -145,7 +195,7 @@ export default class Dashboard extends Component {
                     <ul className="navbar-nav ml-auto nav-flex-icons">
 
                         <li className="nav-item text-white">
-                            <h5 className="pr-2 ">{name}</h5>
+                            <h5 className="pr-2 ">{fname +" "+lname}</h5>
                             <h5 className="pr-2 ">{mobile}</h5>
                         </li>
 
@@ -153,7 +203,9 @@ export default class Dashboard extends Component {
                             <span className="nav-link p-0" href="#">
                                 <img src={user_avatar}
                                     className="rounded-circle img-responsive"
-                                     height="45" />
+                                     height="45"
+                                     width="45"
+                                      />
                             </span>
                         </li>
 
